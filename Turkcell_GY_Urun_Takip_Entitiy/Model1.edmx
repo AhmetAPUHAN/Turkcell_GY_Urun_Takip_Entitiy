@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbUrunModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBLAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" />
+          <Property Name="Soyad" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBLKategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBLMusteri">
+          <Key>
+            <PropertyRef Name="MusteriId" />
+          </Key>
+          <Property Name="MusteriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" />
+          <Property Name="Soyad" Type="varchar" MaxLength="50" />
+          <Property Name="Sehir" Type="varchar" MaxLength="50" />
+          <Property Name="Bakiye" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TBLSatıslar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Urun" Type="int" />
+          <Property Name="Musteri" Type="int" />
+          <Property Name="Adet" Type="tinyint" />
+          <Property Name="Fiyat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Toplam" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Tarih" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TBLUrunler">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAd" Type="varchar" MaxLength="50" />
+          <Property Name="Stok" Type="smallint" />
+          <Property Name="AlisFiyat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SatisFiyati" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Kategori" Type="int" />
+        </EntityType>
+        <Association Name="FK_TBLSatıslar_TBLMusteri">
+          <End Role="TBLMusteri" Type="Self.TBLMusteri" Multiplicity="0..1" />
+          <End Role="TBLSatıslar" Type="Self.TBLSatıslar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLMusteri">
+              <PropertyRef Name="MusteriId" />
+            </Principal>
+            <Dependent Role="TBLSatıslar">
+              <PropertyRef Name="Musteri" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLSatıslar_TBLUrunler">
+          <End Role="TBLUrunler" Type="Self.TBLUrunler" Multiplicity="0..1" />
+          <End Role="TBLSatıslar" Type="Self.TBLSatıslar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLUrunler">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="TBLSatıslar">
+              <PropertyRef Name="Urun" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLUrunler_TBLKategori">
+          <End Role="TBLKategori" Type="Self.TBLKategori" Multiplicity="0..1" />
+          <End Role="TBLUrunler" Type="Self.TBLUrunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLKategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLUrunler">
+              <PropertyRef Name="Kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbUrunModelStoreContainer">
+          <EntitySet Name="TBLAdmin" EntityType="Self.TBLAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLKategori" EntityType="Self.TBLKategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLMusteri" EntityType="Self.TBLMusteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLSatıslar" EntityType="Self.TBLSatıslar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBLUrunler" EntityType="Self.TBLUrunler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBLSatıslar_TBLMusteri" Association="Self.FK_TBLSatıslar_TBLMusteri">
+            <End Role="TBLMusteri" EntitySet="TBLMusteri" />
+            <End Role="TBLSatıslar" EntitySet="TBLSatıslar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLSatıslar_TBLUrunler" Association="Self.FK_TBLSatıslar_TBLUrunler">
+            <End Role="TBLUrunler" EntitySet="TBLUrunler" />
+            <End Role="TBLSatıslar" EntitySet="TBLSatıslar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLUrunler_TBLKategori" Association="Self.FK_TBLUrunler_TBLKategori">
+            <End Role="TBLKategori" EntitySet="TBLKategori" />
+            <End Role="TBLUrunler" EntitySet="TBLUrunler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbUrunModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBLAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBLKategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBLUrunlers" Relationship="Self.FK_TBLUrunler_TBLKategori" FromRole="TBLKategori" ToRole="TBLUrunler" />
+        </EntityType>
+        <EntityType Name="TBLMusteri">
+          <Key>
+            <PropertyRef Name="MusteriId" />
+          </Key>
+          <Property Name="MusteriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sehir" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Bakiye" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="TBLSatıslar" Relationship="Self.FK_TBLSatıslar_TBLMusteri" FromRole="TBLMusteri" ToRole="TBLSatıslar" />
+        </EntityType>
+        <EntityType Name="TBLSatıslar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Urun" Type="Int32" />
+          <Property Name="Musteri" Type="Int32" />
+          <Property Name="Adet" Type="Byte" />
+          <Property Name="Fiyat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Toplam" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TBLMusteri" Relationship="Self.FK_TBLSatıslar_TBLMusteri" FromRole="TBLSatıslar" ToRole="TBLMusteri" />
+          <NavigationProperty Name="TBLUrunler" Relationship="Self.FK_TBLSatıslar_TBLUrunler" FromRole="TBLSatıslar" ToRole="TBLUrunler" />
+        </EntityType>
+        <EntityType Name="TBLUrunler">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Stok" Type="Int16" />
+          <Property Name="AlisFiyat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SatisFiyati" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Kategori" Type="Int32" />
+          <NavigationProperty Name="TBLKategori" Relationship="Self.FK_TBLUrunler_TBLKategori" FromRole="TBLUrunler" ToRole="TBLKategori" />
+          <NavigationProperty Name="TBLSatıslar" Relationship="Self.FK_TBLSatıslar_TBLUrunler" FromRole="TBLUrunler" ToRole="TBLSatıslar" />
+        </EntityType>
+        <Association Name="FK_TBLUrunler_TBLKategori">
+          <End Role="TBLKategori" Type="Self.TBLKategori" Multiplicity="0..1" />
+          <End Role="TBLUrunler" Type="Self.TBLUrunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLKategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBLUrunler">
+              <PropertyRef Name="Kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLSatıslar_TBLMusteri">
+          <End Role="TBLMusteri" Type="Self.TBLMusteri" Multiplicity="0..1" />
+          <End Role="TBLSatıslar" Type="Self.TBLSatıslar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLMusteri">
+              <PropertyRef Name="MusteriId" />
+            </Principal>
+            <Dependent Role="TBLSatıslar">
+              <PropertyRef Name="Musteri" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBLSatıslar_TBLUrunler">
+          <End Role="TBLUrunler" Type="Self.TBLUrunler" Multiplicity="0..1" />
+          <End Role="TBLSatıslar" Type="Self.TBLSatıslar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBLUrunler">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="TBLSatıslar">
+              <PropertyRef Name="Urun" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbUrunEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBLAdmins" EntityType="Self.TBLAdmin" />
+          <EntitySet Name="TBLKategoris" EntityType="Self.TBLKategori" />
+          <EntitySet Name="TBLMusteris" EntityType="Self.TBLMusteri" />
+          <EntitySet Name="TBLSatıslar" EntityType="Self.TBLSatıslar" />
+          <EntitySet Name="TBLUrunlers" EntityType="Self.TBLUrunler" />
+          <AssociationSet Name="FK_TBLUrunler_TBLKategori" Association="Self.FK_TBLUrunler_TBLKategori">
+            <End Role="TBLKategori" EntitySet="TBLKategoris" />
+            <End Role="TBLUrunler" EntitySet="TBLUrunlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLSatıslar_TBLMusteri" Association="Self.FK_TBLSatıslar_TBLMusteri">
+            <End Role="TBLMusteri" EntitySet="TBLMusteris" />
+            <End Role="TBLSatıslar" EntitySet="TBLSatıslar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBLSatıslar_TBLUrunler" Association="Self.FK_TBLSatıslar_TBLUrunler">
+            <End Role="TBLUrunler" EntitySet="TBLUrunlers" />
+            <End Role="TBLSatıslar" EntitySet="TBLSatıslar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbUrunModelStoreContainer" CdmEntityContainer="DbUrunEntities1">
+          <EntitySetMapping Name="TBLAdmins">
+            <EntityTypeMapping TypeName="DbUrunModel.TBLAdmin">
+              <MappingFragment StoreEntitySet="TBLAdmin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLKategoris">
+            <EntityTypeMapping TypeName="DbUrunModel.TBLKategori">
+              <MappingFragment StoreEntitySet="TBLKategori">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLMusteris">
+            <EntityTypeMapping TypeName="DbUrunModel.TBLMusteri">
+              <MappingFragment StoreEntitySet="TBLMusteri">
+                <ScalarProperty Name="MusteriId" ColumnName="MusteriId" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Sehir" ColumnName="Sehir" />
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLSatıslar">
+            <EntityTypeMapping TypeName="DbUrunModel.TBLSatıslar">
+              <MappingFragment StoreEntitySet="TBLSatıslar">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Urun" ColumnName="Urun" />
+                <ScalarProperty Name="Musteri" ColumnName="Musteri" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBLUrunlers">
+            <EntityTypeMapping TypeName="DbUrunModel.TBLUrunler">
+              <MappingFragment StoreEntitySet="TBLUrunler">
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="UrunAd" ColumnName="UrunAd" />
+                <ScalarProperty Name="Stok" ColumnName="Stok" />
+                <ScalarProperty Name="AlisFiyat" ColumnName="AlisFiyat" />
+                <ScalarProperty Name="SatisFiyati" ColumnName="SatisFiyati" />
+                <ScalarProperty Name="Kategori" ColumnName="Kategori" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
